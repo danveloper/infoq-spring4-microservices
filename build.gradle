@@ -1,0 +1,26 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+repositories {
+  jcenter()
+}
+
+ext {
+  springVersion = "4.0.4.RELEASE"
+  tomcatVersion = "8.0.5"
+}
+
+dependencies {
+  compile "org.springframework:spring-webmvc:${springVersion}"
+  compile "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}"
+  compile "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
+  compile 'org.springframework.data:spring-data-jpa:1.6.0.RELEASE'
+  compile 'org.hibernate:hibernate-entitymanager:4.3.5.Final'
+  compile 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate4:2.3.3'
+  runtime 'com.h2database:h2:1.4.178'
+}
+
+jar {
+  from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) })
+  manifest.attributes 'Main-Class': "infoq.spring4.Loader"
+}
